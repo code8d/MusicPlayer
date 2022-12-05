@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style-type: none;
+    color: #fff;    
+}
+
+.wrapper {
+    min-height: 100vh;
+}
+.container {
+    max-width: 725px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: content-box;
+}
