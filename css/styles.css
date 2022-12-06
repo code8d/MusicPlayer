@@ -66,37 +66,25 @@ button {
 }
 .controls {
     display: flex;
-    height: 2px;
+    height: 4px;
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     border-radius: 50px;
     background: #fff;
+    box-sizing: content-box;
+    cursor: pointer;
 }
 .thumb {
     transform: translateY(-3px);
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50px;
     background: #FB8F2C;
     cursor: pointer;
 }
-.controls::-webkit-slider-thumb {
-    transform: translateY(-4px);
-    -webkit-appearance: none;
-    background: #fb8f2c;
-    width: 10px;
-    height: 10px;
-    border-radius: 50px;
-}
-.controls::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
-    background: #fff;
-    border-radius: 50px;
-    width: 100%;
-    height: 2px;
-}
 .progress {
     background: #FB8F2C;
+    border-radius: 1px 0 0 1px;
 }
 .time-block {
     display: flex;

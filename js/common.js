@@ -5,17 +5,22 @@ const songs = ['Skeler - ID1', 'Skeler - ID2', 'Skeler - ID3', 'Skeler - ID4', '
 const cover = document.querySelector('.cover')
 const audio = document.querySelector('.audio')
 const songName = document.querySelector('.song__name')
-const range = document.querySelector('.controls')
 const shuffle = document.querySelector('.shuffle')
 const prev = document.querySelector('.prev')
 const next = document.querySelector('.next')
 const play = document.querySelector('.play')
 const repeat = document.querySelector('.repeat')
 const list = document.querySelector('.list-block')
+const controls = document.querySelector('.controls')
+const progressbar = document.querySelector('.progress')
+const timeFrom = document.querySelector('.time__from')
+const timeTo = document.querySelector('.time__to')
 
 play.addEventListener('click', action)
 prev.addEventListener('click', prevSong)
 next.addEventListener('click', nextSong)
+
+timeTo.textContent = `3:09`
 
 function loadSong(name) {
     cover.src = `./img/songs/${name}.jpg`
@@ -56,6 +61,11 @@ function prevSong() {
 
     loadSong(songs[songIndex])
     playMusic()
+    timeFrom.textContent = `0:00`
+
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 10)
 }
 
 function nextSong() {
@@ -67,6 +77,11 @@ function nextSong() {
 
     loadSong(songs[songIndex])
     playMusic()
+    timeFrom.textContent = `0:00`
+
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 10)
 }
 
 function musicList() {
@@ -101,3 +116,72 @@ function musicList() {
     }
 }
 musicList()
+
+function updateProgress(e) {
+    const {duration, currentTime} = e.srcElement
+    const progressPercent = (currentTime / duration) * 100
+    progressbar.style.width = `${progressPercent}%`
+
+    timeFrom.textContent = updateTime(audio.currentTime)
+}
+audio.addEventListener('timeupdate', updateProgress)
+
+function setProgress(e) {
+    const width = this.clientWidth
+    const clickX = e.offsetX
+    const duration = audio.duration
+
+    audio.currentTime = (clickX / width) * duration
+    timeFrom.textContent = updateTime(audio.currentTime)
+}
+controls.addEventListener('click', setProgress)
+
+function updateTime(time) {
+    let currentTime = Math.floor(time)
+
+    if (currentTime < 10) {
+        return `0:0${currentTime}`
+    }
+    if (currentTime < 60) {
+        return `0:${currentTime}`
+    }
+    if (currentTime === 60) {
+        return `1:00`
+    }
+    if (currentTime > 60 && currentTime < 70) {
+        return `1:0${currentTime - 60}`
+    }
+    if (currentTime > 70 && currentTime < 119) {
+        return `1:${currentTime - 60}`
+    }
+    if (currentTime === 120) {
+        return `2:00`
+    }
+    if (currentTime > 120 && currentTime < 130) {
+        return `2:0${currentTime - 120}`
+    }
+    if (currentTime > 130 && currentTime < 180) {
+        return `2:${currentTime - 120}`
+    }
+    if (currentTime === 180) {
+        return `3:00`
+    }
+    if (currentTime > 180 && currentTime < 190) {
+        return `3:0${currentTime - 180}`
+    }
+    if (currentTime > 190 && currentTime < 240) {
+        return `3:${currentTime - 180}`
+    }
+    if (currentTime > 240 && currentTime < 250) {
+        return `4:0${currentTime - 240}`
+    }
+    if (currentTime > 250 && currentTime < 300) {
+        return `4:${currentTime - 240}`
+    }
+}
+
+function musicLength() {
+    timeTo.textContent = audio.duration
+}
+
+audio.addEventListener('ended', nextSong)
