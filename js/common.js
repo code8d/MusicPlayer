@@ -1,6 +1,6 @@
 let songIndex = 0
 
-const songs = ['Skeler - ID1', 'Skeler - ID2', 'Skeler - ID3', 'Skeler - ID4', 'Skeler - ID5', 'Skeler - ID6', 'Skeler - ID7', 'Skeler - ID8', 'Skeler - ID9', 'Skeler - ID10', 'Skeler - ID11', 'Skeler - ID12', 'Skeler - ID13']
+let songs = ['Skeler - ID1', 'Skeler - ID2', 'Skeler - ID3', 'Skeler - ID4', 'Skeler - ID5', 'Skeler - ID6', 'Skeler - ID7', 'Skeler - ID8', 'Skeler - ID9', 'Skeler - ID10', 'Skeler - ID11', 'Skeler - ID12', 'Skeler - ID13']
 
 const cover = document.querySelector('.cover')
 const audio = document.querySelector('.audio')
@@ -19,6 +19,7 @@ const timeTo = document.querySelector('.time__to')
 play.addEventListener('click', action)
 prev.addEventListener('click', prevSong)
 next.addEventListener('click', nextSong)
+shuffle.addEventListener('click', shuffleFunc)
 
 timeTo.textContent = `3:09`
 
@@ -118,6 +119,7 @@ function musicList() {
     
     for (let i = 0; i < songs.length; i++) {
         list.append(createSong(songs[i]))
+        console.log(`songs[i]:`, songs[i])
     }
 }
 musicList()
@@ -147,6 +149,9 @@ function updateTime(time) {
     if (currentTime < 10) {
         return `0:0${currentTime}`
     }
+    if (currentTime === 10) {
+        return `0:10`
+    }
     if (currentTime < 60) {
         return `0:${currentTime}`
     }
@@ -155,6 +160,9 @@ function updateTime(time) {
     }
     if (currentTime > 60 && currentTime < 70) {
         return `1:0${currentTime - 60}`
+    }
+    if (currentTime === 70) {
+        return `1:10`
     }
     if (currentTime > 70 && currentTime < 119) {
         return `1:${currentTime - 60}`
@@ -165,6 +173,9 @@ function updateTime(time) {
     if (currentTime > 120 && currentTime < 130) {
         return `2:0${currentTime - 120}`
     }
+    if (currentTime === 120) {
+        return `2:10`
+    }
     if (currentTime > 130 && currentTime < 180) {
         return `2:${currentTime - 120}`
     }
@@ -174,11 +185,17 @@ function updateTime(time) {
     if (currentTime > 180 && currentTime < 190) {
         return `3:0${currentTime - 180}`
     }
+    if (currentTime === 180) {
+        return `3:10`
+    }
     if (currentTime > 190 && currentTime < 240) {
         return `3:${currentTime - 180}`
     }
     if (currentTime > 240 && currentTime < 250) {
         return `4:0${currentTime - 240}`
+    }
+    if (currentTime === 240) {
+        return `4:10`
     }
     if (currentTime > 250 && currentTime < 300) {
         return `4:${currentTime - 240}`
@@ -190,3 +207,46 @@ function musicLength() {
 }
 
 audio.addEventListener('ended', nextSong)
+
+function shuffleFunc() {
+    const newSongs = []
+
+    for (let i = 0; i < songs.length; i++) {
+        newSongs.push(createPersonArray(songs[i], randomId()))
+    }
+    
+    bubbleSort(newSongs)
+    loadSong(newSongs[0][0])
+    playMusic()
+    // setTimeout(() => {
+    //     musicList()
+    // })
+    return newSongs
+}
+
+function randomId() {
+    return Math.random()
+}
+
+function createPersonArray(songName, songId) {
+    let song = [
+        songName,
+        songId
+    ]
+    return song
+}
+
+function bubbleSort(array) {
+    for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array.length; j++) {
+            
+            if (array[j + 1] === undefined) {
+                continue
+            }
+            if (array[j + 1][1] < array[j][1]) {
+                [array[j], array[j + 1]] = [array[j + 1], array[j]]
+            }
+        }
+    }
+    return array
+}
