@@ -90,7 +90,7 @@ function nextSong() {
     }, 10)
 }
 
-function musicList() {
+function musicList(array) {
     function createSong(url) {
         const item = document.createElement('button')
         item.classList.add('item')
@@ -116,13 +116,12 @@ function musicList() {
     
         return item
     }
-    
-    for (let i = 0; i < songs.length; i++) {
-        list.append(createSong(songs[i]))
-        console.log(`songs[i]:`, songs[i])
+
+    for (let i = 0; i < array.length; i++) {
+        list.append(createSong(array[i]))
     }
 }
-musicList()
+musicList(songs)
 
 function updateProgress(e) {
     const {duration, currentTime} = e.srcElement
@@ -209,44 +208,45 @@ function musicLength() {
 audio.addEventListener('ended', nextSong)
 
 function shuffleFunc() {
-    const newSongs = []
+    let randomNum = randomNumber(0, 13)
 
-    for (let i = 0; i < songs.length; i++) {
-        newSongs.push(createPersonArray(songs[i], randomId()))
+    if (randomNum === songIndex) {
+        return shuffleFunc()
+    }   else {
+        songIndex = randomNum
     }
     
-    bubbleSort(newSongs)
-    loadSong(newSongs[0][0])
+    loadSong(songs[songIndex])
     playMusic()
-    // setTimeout(() => {
-    //     musicList()
-    // })
-    return newSongs
 }
 
-function randomId() {
-    return Math.random()
-}
+// function randomId() {
+//     return Math.random()
+// }
 
-function createPersonArray(songName, songId) {
-    let song = [
-        songName,
-        songId
-    ]
-    return song
-}
+// function createPersonArray(songName, songId) {
+//     let song = [
+//         songName,
+//         songId
+//     ]
+//     return song
+// }
 
-function bubbleSort(array) {
-    for (let i = 0; i < array.length; i++) {
-        for (let j = 0; j < array.length; j++) {
+// function bubbleSort(array) {
+//     for (let i = 0; i < array.length; i++) {
+//         for (let j = 0; j < array.length; j++) {
             
-            if (array[j + 1] === undefined) {
-                continue
-            }
-            if (array[j + 1][1] < array[j][1]) {
-                [array[j], array[j + 1]] = [array[j + 1], array[j]]
-            }
-        }
-    }
-    return array
+//             if (array[j + 1] === undefined) {
+//                 continue
+//             }
+//             if (array[j + 1][1] < array[j][1]) {
+//                 [array[j], array[j + 1]] = [array[j + 1], array[j]]
+//             }
+//         }
+//     }
+//     return array
+// }
+
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max))
 }
