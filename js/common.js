@@ -193,7 +193,7 @@ function updateTime(time) {
     if (currentTime > 240 && currentTime < 250) {
         return `4:0${currentTime - 240}`
     }
-    if (currentTime === 240) {
+    if (currentTime === 250) {
         return `4:10`
     }
     if (currentTime > 250 && currentTime < 300) {
@@ -218,6 +218,9 @@ function shuffleFunc() {
     
     loadSong(songs[songIndex])
     playMusic()
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 10)
 }
 
 // function randomId() {
@@ -248,5 +251,10 @@ function shuffleFunc() {
 // }
 
 function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max))
+    let rand = Math.floor(min - 0.5 + Math.random() * (max - min + 1))
+
+    if (rand === - 1) {
+        return randomNumber(min, max)
+    }
+    return rand
 }
