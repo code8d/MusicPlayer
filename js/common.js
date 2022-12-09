@@ -32,18 +32,23 @@ loadSong(songs[songIndex])
 
 function playMusic() {
     audio.classList.add('active')
-    play.children[0].src = `./img/pause.png`
+    // play.children[0].src = `./img/pause.png`
+    play.children[0].classList.add('fa-pause')
+    play.children[0].classList.remove('fa-play')
     audio.play()
 }
 
 function pauseMusic() {
     audio.classList.remove('active')
-    play.children[0].src = `./img/action.png`
+    // play.children[0].src = `./img/action.png`
+    play.children[0].classList.add('fa-play')
+    play.children[0].classList.remove('fa-pause')
     audio.pause()
 }
 
 function action() {
     let playing = audio.classList.contains('active')
+    play.children[0].classList.add('fa-pause')
 
     if (playing) {
         pauseMusic()
