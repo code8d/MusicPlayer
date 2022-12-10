@@ -27,6 +27,7 @@ function loadSong(name) {
     cover.src = `./img/songs/${name}.jpg`
     audio.src = `./music/${name}.mp3`
     songName.textContent = name
+    
     setTimeout(() => {
         timeTo.textContent = updateTime(audio.duration)
     }, 10)
@@ -150,7 +151,7 @@ function musicLength() {
 }
 
 function shuffleFunc() {
-    let randomNum = randomNumber(0, 13)
+    let randomNum = randomNumber(0, 12)
 
     if (randomNum === songIndex) {
         return shuffleFunc()
@@ -210,7 +211,6 @@ items.forEach(item => {
 
 function playThisOne(elem) {
     songIndex = items.indexOf(elem)
-    console.log(songIndex)
     loadSong(elem.children[1].textContent)
     setTimeout(() => {
         timeTo.textContent = updateTime(audio.duration)
