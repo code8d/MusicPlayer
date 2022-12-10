@@ -258,3 +258,18 @@ function randomNumber(min, max) {
     }
     return rand
 }
+
+const items = list.querySelectorAll('.item')
+items.forEach(item => {
+    item.addEventListener('click', () => {
+        playThisOne(item)
+    })
+})
+
+function playThisOne(elem) {
+    loadSong(elem.children[1].textContent)
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 10)
+    playMusic()
+}
