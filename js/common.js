@@ -27,6 +27,9 @@ function loadSong(name) {
     cover.src = `./img/songs/${name}.jpg`
     audio.src = `./music/${name}.mp3`
     songName.textContent = name
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 10)
 }
 
 loadSong(songs[songIndex])
@@ -142,6 +145,81 @@ function setProgress(e) {
 }
 controls.addEventListener('click', setProgress)
 
+function musicLength() {
+    timeTo.textContent = audio.duration
+}
+
+function shuffleFunc() {
+    let randomNum = randomNumber(0, 13)
+
+    if (randomNum === songIndex) {
+        return shuffleFunc()
+    }   else {
+        songIndex = randomNum
+    }
+    
+    loadSong(songs[songIndex])
+    playMusic()
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 10)
+}
+
+// function randomId() {
+//     return Math.random()
+// }
+
+// function createPersonArray(songName, songId) {
+//     let song = [
+//         songName,
+//         songId
+//     ]
+//     return song
+// }
+
+// function bubbleSort(array) {
+//     for (let i = 0; i < array.length; i++) {
+//         for (let j = 0; j < array.length; j++) {
+            
+//             if (array[j + 1] === undefined) {
+//                 continue
+//             }
+//             if (array[j + 1][1] < array[j][1]) {
+//                 [array[j], array[j + 1]] = [array[j + 1], array[j]]
+//             }
+//         }
+//     }
+//     return array
+// }
+
+function randomNumber(min, max) {
+    let rand = Math.floor(min - 0.5 + Math.random() * (max - min + 1))
+
+    if (rand === - 1) {
+        return randomNumber(min, max)
+    }
+    return rand
+}
+
+const items = Array.from(list.querySelectorAll('.item'))
+items.forEach(item => {
+    item.addEventListener('click', () => {
+        playThisOne(item)
+    })
+})
+
+function playThisOne(elem) {
+    songIndex = items.indexOf(elem)
+    console.log(songIndex)
+    loadSong(elem.children[1].textContent)
+    setTimeout(() => {
+        timeTo.textContent = updateTime(audio.duration)
+    }, 11)
+    playMusic()
+}
+
+audio.addEventListener('ended', nextSong)
+
 function updateTime(time) {
     let currentTime = Math.floor(time)
 
@@ -199,77 +277,4 @@ function updateTime(time) {
     if (currentTime > 250 && currentTime < 300) {
         return `4:${currentTime - 240}`
     }
-}
-
-function musicLength() {
-    timeTo.textContent = audio.duration
-}
-
-audio.addEventListener('ended', nextSong)
-
-function shuffleFunc() {
-    let randomNum = randomNumber(0, 13)
-
-    if (randomNum === songIndex) {
-        return shuffleFunc()
-    }   else {
-        songIndex = randomNum
-    }
-    
-    loadSong(songs[songIndex])
-    playMusic()
-    setTimeout(() => {
-        timeTo.textContent = updateTime(audio.duration)
-    }, 10)
-}
-
-// function randomId() {
-//     return Math.random()
-// }
-
-// function createPersonArray(songName, songId) {
-//     let song = [
-//         songName,
-//         songId
-//     ]
-//     return song
-// }
-
-// function bubbleSort(array) {
-//     for (let i = 0; i < array.length; i++) {
-//         for (let j = 0; j < array.length; j++) {
-            
-//             if (array[j + 1] === undefined) {
-//                 continue
-//             }
-//             if (array[j + 1][1] < array[j][1]) {
-//                 [array[j], array[j + 1]] = [array[j + 1], array[j]]
-//             }
-//         }
-//     }
-//     return array
-// }
-
-function randomNumber(min, max) {
-    let rand = Math.floor(min - 0.5 + Math.random() * (max - min + 1))
-
-    if (rand === - 1) {
-        return randomNumber(min, max)
-    }
-    return rand
-}
-
-const items = list.querySelectorAll('.item')
-items.forEach(item => {
-    item.addEventListener('click', () => {
-        playThisOne(item)
-    })
-})
-
-function playThisOne(elem) {
-    loadSong(elem.children[1].textContent)
-    setTimeout(() => {
-        timeTo.textContent = updateTime(audio.duration)
-    }, 10)
-    playMusic()
 }
